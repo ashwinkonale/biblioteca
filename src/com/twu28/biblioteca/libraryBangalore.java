@@ -1,104 +1,80 @@
 package com.twu28.biblioteca;
 
-import java.awt.print.Book;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * Created with IntelliJ IDEA.
- * User: SONY
- * Date: 7/26/12
- * Time: 11:02 AM
+ * User: ashwinko
+ * Date: 9/14/12
+ * Time: 5:17 PM
  * To change this template use File | Settings | File Templates.
  */
-public class libraryBangalore {
-    public ArrayList<myBook> booksInLibrary = new ArrayList<myBook>();
-    private static final int NO_OF_BOOKS = 11;
-
-    public libraryBangalore() {
-        for (int i =0 ; i < NO_OF_BOOKS ; i++){
-            booksInLibrary.add(new myBook("book" + i));
-        }
-    }
-
-    public boolean welcomemsg() {
-        System.out.println("welcome to library");
-        return true ;
-    }
-
-    public boolean showMenuOptions() {
-        System.out.println("1: View Books");
-        System.out.println("2: reserve particular Book");
-        System.out.println("3: check you membership");
-        System.out.println("4: Exit the library");
-        return true;  //To change body of created methods use File | Settings | File Templates.
-    }
-
-    public boolean viewAllBooks() {
-        for (int i = 0; i<NO_OF_BOOKS; i++){
-            System.out.println(booksInLibrary.get(i).getBookName());
-
-        }
-
-        return true;  //To change body of created methods use File | Settings | File Templates.
-    }
-
-    public boolean reserveBook(String bookname) {
-        //int userOption = Integer.parseInt(option);
-        boolean availability = false;// = booksInLibrary.get(userOption);
-        for (int  i = 0 ; i < NO_OF_BOOKS; i++){
-            myBook book_temp = booksInLibrary.get(i);
-            if(bookname.equals( book_temp.getBookName())){
-                availability = true;
-                break;
-            }
-        }
-        if(availability == true){
-            System.out.println("Congratulation!! You Have Reserved the Book named -->" + bookname);
-
-        }
-        else {
-            System.out.println("Sorry!! "+ bookname + " is not currently available");
-        }
-        return availability;
-
-    }
-
-    public boolean showLibrariansMessage() {
-        System.out.println("Please talk to the Librarian!!");
+public class LibraryBangalore {
+    ArrayList<BookClass>bookList=new ArrayList<BookClass>();
+    //ArrayList<BookClass>reservedBooks=new ArrayList<BookClass>();
+    ArrayList<MenuOptions>menList=new ArrayList<MenuOptions>();
+    public boolean welcomeMsg() {
+        System.out.println("welcocme to the library!");
         return true;
     }
-
-
-
-    public int selectChoice() {
-        getInput opt  = new getInput();
-        String option = opt.selectYourChoice("select menu option");
-        int userOption = Integer.parseInt(option);
-        return userOption;
+    public LibraryBangalore(){
+        addBooks();
+        addMenuOptions();
     }
 
-    public boolean takeaction(int choice) {
-        if(choice==1){viewAllBooks();
-        }
-        else if(choice==2){
-            System.out.println("select your book");
-            Scanner reader = new Scanner(System.in);
-            String userRequires = reader.nextLine();
-            reserveBook(userRequires) ;
-        }
-        else if(choice==3){
-            showLibrariansMessage();
-        }
-        else if(choice==4){
-            System.exit(0);
-        }
-        else {
-            System.out.println("invalid choice");
-            return false;
-        }
-        return true;
+    private void addMenuOptions() {
+        menList.add(new MenuOptions(1,"Books"));
+        menList.add(new MenuOptions(2,"Exit"));
 
         //To change body of created methods use File | Settings | File Templates.
     }
+
+    public void addBooks(){
+        for(int i=1;i<=10;i++){
+            bookList.add(new BookClass(i,"book"+i));
+        }
+    }
+
+    public void viewBooksInLibrary() {
+        for (int i=0;i<10;i++){
+            BookClass book_temp=bookList.get(i);
+            System.out.println(book_temp);
+            //reserveBook("book1");
+
+        }
+        //T" change body of created methods use File | Settings | File Templates.
+    }
+
+    public void viewMenuOptions() {
+        System.out.println(menList.get(0));
+        System.out.println(menList.get(1));
+
+    }
+
+    public boolean reserveBook(int index) {
+        System.out.println("Select the index of the book to be reserved");
+        //Scanner reader=new Scanner(System.in);
+        //String bookname=reader.nextLine();
+
+        boolean availability=false;
+        BookClass book_temp=bookList.get(index);
+        if(!book_temp.isReserved()){
+           bookList.get(index).setReserved(true);
+            availability=true;
+        }
+
+        if(availability){
+            System.out.println("Congratulation!! You Have Reserved the Book named -->" +book_temp);
+
+        }
+        else if (availability==false) {
+            System.out.println("Sorry!! "+ book_temp + " is not currently available");
+        }
+        return availability;
+    }
+
+    public void showLibrarianMsg() {
+        System.out.println("please talk to the librarian");
+    }
+
 }

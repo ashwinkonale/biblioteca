@@ -2,7 +2,8 @@ package com.twu28.biblioteca;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,43 +16,31 @@ public class test {
 
     @Test
     public void canShowWelcomeMessage(){
-        //new libraryBangalore();
-        libraryBangalore library =   new libraryBangalore();
-           assertTrue(library.welcomemsg());
+        LibraryBangalore library =   new LibraryBangalore();
+           assertTrue(library.welcomeMsg());
     }
     @Test
-    public void canShowMenuOptions(){
-
-        libraryBangalore library =   new libraryBangalore();
-        assertTrue(library.showMenuOptions());
-
-    }
-    /*@Test
-    public void canGetUserInput(){
-
-        libraryBangalore menuOption = new libraryBangalore();
-
-        assertTrue((Boolean) menuOption.selectYourChoice());
-
-    }*/
-    @Test
-    public void canViewAllBooks(){
-        libraryBangalore library =   new libraryBangalore();
-        assertTrue(library.viewAllBooks());
+    public void ViewBooks(){
+       LibraryBangalore libraryBangalore=new LibraryBangalore();
+        libraryBangalore.viewBooksInLibrary();
     }
     @Test
-    public void canReserveSelectedBook(){
-        libraryBangalore library =   new libraryBangalore();
-        assertTrue(library.reserveBook("book4"));
-        library.viewAllBooks();
-        assertFalse(library.reserveBook("book12"));
+    public void testViewMenuOptions(){
+        LibraryBangalore libraryBangalore=new LibraryBangalore();
+        libraryBangalore.viewMenuOptions();
+
     }
-
     @Test
-    public void canViewLibrariansMessage(){
-        libraryBangalore library =   new libraryBangalore();
-        assertTrue(library.showLibrariansMessage());
-
+    public void testReserveBook(){
+        LibraryBangalore libraryBangalore=new LibraryBangalore();
+        assertTrue(libraryBangalore.reserveBook(2));
+        libraryBangalore.viewBooksInLibrary();
+        assertFalse(libraryBangalore.reserveBook(2));
+    }
+    @Test
+    public void showLibrarianMsg(){
+        LibraryBangalore libraryBangalore=new LibraryBangalore();
+        libraryBangalore.showLibrarianMsg();
     }
 
 
