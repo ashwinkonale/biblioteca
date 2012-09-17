@@ -13,18 +13,37 @@ public class LibraryBangalore {
     ArrayList<BookClass>bookList=new ArrayList<BookClass>();
     //ArrayList<BookClass>reservedBooks=new ArrayList<BookClass>();
     ArrayList<MenuOptions>menList=new ArrayList<MenuOptions>();
+    ArrayList<MovieClass>movieList=new ArrayList<MovieClass>();
+
     public boolean welcomeMsg() {
-        System.out.println("welcocme to the library!");
+        System.out.println("welcome to the library!");
         return true;
     }
     public LibraryBangalore(){
         addBooks();
+        addMovies();
         addMenuOptions();
+    }
+
+    private void addMovies() {
+        for(int i=1;i<=10;i++){
+            double rating1=Math.random()*10;
+            rating1=Double.parseDouble(String.format("%.2f", rating1));
+            String rating= String.valueOf(rating1);
+
+            if(rating1<1){
+                rating="N/A";
+            }
+
+            movieList.add(new MovieClass(i,"movieName"+i,"Director"+i,rating));
+
+        }
     }
 
     private void addMenuOptions() {
         menList.add(new MenuOptions(1,"Books"));
-        menList.add(new MenuOptions(2,"Exit"));
+        menList.add(new MenuOptions(2,"Movies"));
+        menList.add(new MenuOptions(3,"Exit"));
 
         //To change body of created methods use File | Settings | File Templates.
     }
@@ -46,8 +65,8 @@ public class LibraryBangalore {
     }
 
     public void viewMenuOptions() {
-        System.out.println(menList.get(0));
-        System.out.println(menList.get(1));
+        System.out.println(menList);
+        //System.out.println(menList.get(1));
 
     }
 
@@ -71,10 +90,16 @@ public class LibraryBangalore {
             System.out.println("Sorry!! "+ book_temp + " is not currently available");
         }
         return availability;
+
     }
 
     public void showLibrarianMsg() {
         System.out.println("please talk to the librarian");
     }
 
+    public void viewMovies() {
+        for (int i=0;i<movieList.size();i++){
+            System.out.println(movieList.get(i));
+        }
+    }
 }

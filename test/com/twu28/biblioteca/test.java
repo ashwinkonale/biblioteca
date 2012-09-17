@@ -42,6 +42,11 @@ public class test {
         LibraryBangalore libraryBangalore=new LibraryBangalore();
         libraryBangalore.showLibrarianMsg();
     }
+    @Test
+    public void showMovieList(){
+        LibraryBangalore libraryBangalore=new LibraryBangalore();
+        libraryBangalore.viewMovies();
+    }
 
 
 

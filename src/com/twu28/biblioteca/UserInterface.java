@@ -10,8 +10,12 @@ package com.twu28.biblioteca;
 public class UserInterface {
     public static void main(String [] args){
         LibraryBangalore libraryBangalore=new LibraryBangalore();
+        while(true){
         libraryBangalore.viewMenuOptions();
-        int userInput=1;
+            //Scanner userInput1=new Scanner(System.in);
+            //int userInput=userInput1.nextInt();
+            int userInput=1;
+
         switch (userInput){
             case 1:
             libraryBangalore.viewBooksInLibrary();
@@ -22,16 +26,23 @@ public class UserInterface {
                 choice.toLowerCase();
                 if(choice.equals("y")){
                     libraryBangalore.reserveBook(3);
-
+                }
+                if(choice.equals("n")){
+                    break;
                 }
                 break;
             case 2:
+                libraryBangalore.viewMovies();
+                break;
+            case 3:
                 System.exit(0);
             default:
                 System.out.println("Select a valid menu option !!");
 
 
         }
+      }
+
 
     }
 }
