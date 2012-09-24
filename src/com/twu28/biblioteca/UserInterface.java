@@ -1,48 +1,58 @@
 package com.twu28.biblioteca;
 
-/**
- * Created with IntelliJ IDEA.
- * User: ashwinko
- * Date: 9/16/12
- * Time: 2:45 PM
- * To change this template use File | Settings | File Templates.
- */
+import java.io.PrintStream;
+import java.util.List;
+
 public class UserInterface {
-    public static void main(String [] args){
-        LibraryBangalore libraryBangalore=new LibraryBangalore();
-        while(true){
-        libraryBangalore.viewMenuOptions();
-            //Scanner userInput1=new Scanner(System.in);
-            //int userInput=userInput1.nextInt();
-            int userInput=1;
+    private final PrintStream output;
+    private List<Book> booksAvailable;
+    private final Input input;
 
-        switch (userInput){
-            case 1:
-            libraryBangalore.viewBooksInLibrary();
-                libraryBangalore.reserveBook(3);
-                System.out.println("So u want to reserve one more book? y/n");
-                //scanner
-                String choice="y";
-                choice.toLowerCase();
-                if(choice.equals("y")){
-                    libraryBangalore.reserveBook(3);
-                }
-                if(choice.equals("n")){
-                    break;
-                }
-                break;
-            case 2:
-                libraryBangalore.viewMovies();
-                break;
-            case 3:
-                System.exit(0);
-            default:
-                System.out.println("Select a valid menu option !!");
+    public UserInterface(PrintStream output, Input input, List<Book> books) {
+        this.booksAvailable=books;
+        this.output=output;
+        this.input=input;
+    }
 
+    public void printMenuOptions() {
+        output.println("Welcome to library");
+        output.println("View books");
+        output.println("Reserve a book");
+        output.println("View movie list");
+        output.println("Login");
+        output.println("Exit");
+    }
+
+    public void printBooks() {
+        for (Book book:booksAvailable){
+            output.println(book.display());
+        }
+    }
+
+    public void reserveBook() {
+        output.println("Enter the isbn of the book to be reserved");
+        int requestedBookISBN=input.nextInt();
+        reserveBookOfISBN(requestedBookISBN);
+    }
+
+    private void reserveBookOfISBN(int requestedBookISBN) {
+        Book reservedBook = null;
+        for(Book book:booksAvailable){
+            if(book.hasSameISBN(requestedBookISBN)){
+                reservedBook=book;
+            }
+        }
+        if(reservedBook==null){
+            output.println("Sorry we don't have that book yet");
+            return;
+        }
+        if(reservedBook.isReserved()){
+            output.println(reservedBook.display()+" is not currently available");
 
         }
-      }
-
-
+        else {
+            output.println("U hv reserved book -->"+reservedBook.display());
+            reservedBook.reserve();
+        }
     }
 }
