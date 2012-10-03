@@ -3,7 +3,6 @@ package com.twu28.biblioteca;
 public class User {
     private String userName;
     private String passWord;
-    private boolean loginStatus;
 
     public User(String userName,String passWord){
         this.userName=userName;
@@ -30,11 +29,7 @@ public class User {
         return result;
     }
 
-    public void loggedIn() {
-        this.loginStatus=true;
-    }
-
-    public String display() {
+    public String returnDetails() {
         return userName;
     }
 }

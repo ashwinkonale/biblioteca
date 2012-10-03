@@ -1,38 +1,45 @@
 package com.twu28.biblioteca;
 
 import java.io.PrintStream;
-import java.util.List;
+import java.util.HashMap;
 
 public class Menu {
-    private PrintStream output;
-    private Input input;
-    private List<MenuOption>menuOptionList;
-    public Menu(PrintStream output, Input input, List<MenuOption> menuOptions){
-        this.output=output;
+    PrintStream output;
+    HashMap<String,Option>options;
+    Input input;
+    public Menu(Input input, PrintStream output1, HashMap<String, Option> options) {
+        this.output = output1;
+        this.options=options;
         this.input=input;
-        this.menuOptionList=menuOptions;
     }
 
-    public void displayMenuOption(){
-        for (MenuOption menuOption:menuOptionList){
-            output.println(menuOption.display());
+    public void display() {
+        for (String optionKey:options.keySet()){
+            output.println(optionKey+". "+options.get(optionKey).getName());
         }
     }
 
     public void selectMenuOption() {
+        int choice = getUserChoice();
+        if(isValidChoice(choice)){
+            String key=Integer.toString(choice);
+            options.get(key).performAction();
+       }
+        else {
+            output.println("Invalid selection");
+        }
+    }
 
+    private boolean isValidChoice(int choice) {
+        if(choice<0||choice>options.size()){
+            return false;
+        }
+        return true;
+    }
+
+    private int getUserChoice() {
+        output.println("Select your choice");
         int choice=input.nextInt();
-        MenuOption optionSelected = null;
-        for(MenuOption menuOption:menuOptionList){
-            if(menuOption.hasSameIndex(choice)){
-                optionSelected=menuOption;
-            }
-        }
-        if(optionSelected==null){
-            output.println("Enter Valid option");
-            return;
-        }
-        optionSelected.performAction();
-
+        return choice;
     }
 }

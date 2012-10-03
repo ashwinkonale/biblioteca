@@ -1,46 +1,52 @@
 package com.twu28.biblioteca;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
 public class Application {
-    private Menu menu;
-
-    public Application(Menu menu1) {
-        this.menu=menu1;
-    }
-    public static void main(String[] args){
-
-
-        List<Book>availableBooks=new ArrayList<Book>();
-        availableBooks.add(new Book(1, "Immortals of meluha"));
-        availableBooks.add(new Book(2,"Secret of nagas"));
-        List<Movie>availableMovies=new ArrayList<Movie>();
-        availableMovies.add(new Movie("snatch","director1","7.5"));
-        availableMovies.add(new Movie("run","director2","8.9"));
-        List<MenuOption>menuOptions=new ArrayList<MenuOption>();
-
-        PrintStream output=System.out;
-        Input input=new Input(new Scanner(System.in));
-
-        menuOptions.add(new MenuOptionToViewBooks(output,availableBooks));
-        menuOptions.add(new MenuOptionToReserveBook(input,output,availableBooks));
-        menuOptions.add(new MenuOptionToViewMovies(output,availableMovies));
-        menuOptions.add(new MenuOptionToLogin(input,output));
-
-        Menu menu1=new Menu(output,input,menuOptions);
-
-        Application application =new Application(menu1);
-        application.run();
-
+    Menu menu;
+    public Application(Menu menu) {
+        this.menu=menu;
     }
 
     public void run() {
         while (true){
-            menu.displayMenuOption();
+            menu.display();
             menu.selectMenuOption();
         }
+    }
+    public static void main(String[] args){
+        Input input=new Input(new Scanner(System.in));
+        HashMap<String,Option>options=new HashMap<String, Option>();
+        List<Book>bookList=new ArrayList<Book>();
+        List<Movie>movieList=new ArrayList<Movie>();
+        List<User>userList=new ArrayList<User>();
+
+        bookList.add(new Book(1,"book1"));
+        bookList.add(new Book(2,"book2"));
+        bookList.add(new Book(3,"book3"));
+
+        movieList.add(new Movie("movie 1","Director 1","5"));
+        movieList.add(new Movie("movie 2","Director 2","N/A"));
+        movieList.add(new Movie("movie 3","Director 3","7"));
+
+        userList.add(new User("user1","pass1"));
+        userList.add(new User("user2","pass2"));
+        userList.add(new User("user3","pass3"));
+
+        options.put("1",new OptionToBrowseBooks(System.out,"Browse Book",bookList));
+        options.put("2",new OptionToReserveBooks(input,System.out,"Reserve Book",bookList));
+        options.put("3",new OptionToBrowseMovies(System.out,"Browse Movies",movieList));
+        options.put("4",new OptionToLogin(System.out,"Login",input,userList));
+        options.put("5",new OptionToCheckDetails(System.out,"Check Details"));
+        options.put("0",new OptionToExit(System.out,"Exit"));
+
+        Menu menu=new Menu(input,System.out,options);
+
+        Application application=new Application(menu);
+
+        application.run();
     }
 }
